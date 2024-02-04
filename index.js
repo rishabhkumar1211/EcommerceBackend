@@ -187,11 +187,32 @@ server.post("/create-payment-intent", async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: totalAmount * 100, // for decimal compensation
     currency: "inr",
+    description: "Software development services",
+    shipping: {
+      name: "Jenny Rosen",
+      address: {
+        line1: "510 Townsend St",
+        postal_code: "98140",
+        city: "San Francisco",
+        state: "CA",
+        country: "US",
+      },
+    },
     automatic_payment_methods: {
       enabled: true,
     },
     metadata: {
       orderId,
+    },
+  });
+  const customer = await stripe.customers.create({
+    name: "Jenny Rosen",
+    address: {
+      line1: "510 Townsend St",
+      postal_code: "98140",
+      city: "San Francisco",
+      state: "CA",
+      country: "US",
     },
   });
 
